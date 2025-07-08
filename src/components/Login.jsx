@@ -1,12 +1,86 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
+
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
 
 import Header from "./Header"
+import { checkValidData } from "../util/validate"
+import { auth } from "../util/firebase"
 
 const Login = () => {
     const [isLoginForm, setIsLoginForm] = useState(true)
+    const [errorMessage, setErrorMessage] = useState(null)
+
+    const name = useRef(null)
+    const email = useRef(null)
+    const password = useRef(null)
+
+    // console.log(name)
+    // console.log(email)
+    // console.log(password)
+
+    const resetForm = () => {
+        debugger
+        if (!isLoginForm) {
+            name.current.value = ""
+        }
+        email.current.value = ""
+        password.current.value = ""
+        setErrorMessage(null)
+    }
 
     const toggleForm = () => {
         setIsLoginForm(!isLoginForm)
+        resetForm()
+    }
+
+    const handleOnClickButton = (e) => {
+        debugger
+        // Prevent the default form submission behavior like page reload
+        e.preventDefault()
+
+        // Validate the form data
+        const nameValue = isLoginForm ? null : name.current.value
+        const emailValue = email.current.value
+        const passwordValue = password.current.value
+
+        const message = checkValidData(nameValue, emailValue, passwordValue, isLoginForm)
+        setErrorMessage(message)
+
+        if (message) return
+
+        // Sign up logic
+        if (!isLoginForm) {
+            createUserWithEmailAndPassword(auth, emailValue, passwordValue)
+                .then((userCredentail) => {
+                    // User signed up successfully
+                    const user = userCredentail.user
+                    console.log("User signed up:", user)
+                    resetForm()
+                })
+                .catch((error) => {
+                    // Handle errors here
+                    console.log("Error signing up:", error)
+                    const errorCode = error.errorCode
+                    const errorMessage = error.message
+                    setErrorMessage(errorCode + "-" + errorMessage)
+                })
+        }
+
+        // Sign in logic
+        else {
+            signInWithEmailAndPassword(auth, emailValue, passwordValue)
+                .then((userCredential) => {
+                    const user = userCredential.user
+                    console.log("User signed in:", user)
+                    resetForm()
+                })
+                .catch((error) => {
+                    const errorCode = error.code
+                    const errorMessage = error.message
+                    setErrorMessage(errorCode + "-" + errorMessage)
+                    console.log("Error signing in:", error)
+                })
+        }
     }
 
     return (
@@ -25,6 +99,7 @@ const Login = () => {
                         type="text"
                         placeholder="Full Name"
                         className="my-2 p-4 border border-black w-full rounded-md bg-gray-700"
+                        ref={name}
                     />
                 )}
 
@@ -32,13 +107,19 @@ const Login = () => {
                     type="email"
                     placeholder="Email or mobile number"
                     className="my-2 p-4 border border-black w-full rounded-md bg-gray-700"
+                    ref={email}
                 />
                 <input
                     type="password"
                     placeholder="Password"
                     className="my-2 p-4 border border-black w-full rounded-md bg-gray-700"
+                    ref={password}
                 />
-                <button className="my-4 p-2 border border-red-500  bg-red-600 w-full rounded-md">
+                <p className="text-red-600 text-lg font-bold py-2">{errorMessage}</p>
+                <button
+                    className="my-4 p-2 border border-red-500  bg-red-600 w-full rounded-md"
+                    onClick={handleOnClickButton}
+                >
                     {isLoginForm ? "Sign In" : "Sign Up"}
                 </button>
                 <span className="text-gray-400">{isLoginForm ? "New to Neflix?" : "Already have the account?"}</span>
