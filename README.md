@@ -10,7 +10,10 @@
 -   useRef Hook
 -   Firebase setup
 -   Deployed the app to production(in firebase)
--   Integrated the signup/login form with firebase
+-   Integrated the signup/login form with firebase authentication api
+-   Created Redux store with userInfoSlice
+-   Upon Sign in/Sign up added the user info to userInfoSlice using onAuthStateChanged
+-   Upon Sign out removed the user info from userInfoSlice using onAuthStateChanged
 
 # Features
 

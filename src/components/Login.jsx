@@ -1,14 +1,18 @@
 import { useState, useRef } from "react"
-
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth"
+import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
 
 import Header from "./Header"
 import { checkValidData } from "../util/validate"
 import { auth } from "../util/firebase"
+import { addUserInfo } from "../util/userInfoSlice"
 
 const Login = () => {
     const [isLoginForm, setIsLoginForm] = useState(true)
     const [errorMessage, setErrorMessage] = useState(null)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const name = useRef(null)
     const email = useRef(null)
@@ -19,7 +23,6 @@ const Login = () => {
     // console.log(password)
 
     const resetForm = () => {
-        debugger
         if (!isLoginForm) {
             name.current.value = ""
         }
@@ -55,7 +58,18 @@ const Login = () => {
                     // User signed up successfully
                     const user = userCredentail.user
                     console.log("User signed up:", user)
-                    resetForm()
+                    // Update the user's profile with display name and photo URL
+                    updateProfile(user, {
+                        displayName: nameValue,
+                        photoURL: "https://avatars.githubusercontent.com/u/203337732?v=4",
+                    })
+                        .then(() => {
+                            const { uid, email, displayName, photoURL } = user
+                            dispatch(addUserInfo({ uid, email, displayName, photoURL }))
+                            navigate("/browse")
+                            resetForm()
+                        })
+                        .catch((error) => setErrorMessage(error.message))
                 })
                 .catch((error) => {
                     // Handle errors here
@@ -72,6 +86,7 @@ const Login = () => {
                 .then((userCredential) => {
                     const user = userCredential.user
                     console.log("User signed in:", user)
+                    navigate("/browse")
                     resetForm()
                 })
                 .catch((error) => {
