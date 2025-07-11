@@ -14,6 +14,10 @@
 -   Created Redux store with userInfoSlice
 -   Upon Sign in/Sign up added the user info to userInfoSlice using onAuthStateChanged
 -   Upon Sign out removed the user info from userInfoSlice using onAuthStateChanged
+-   BugFix: Sign up user displayname and profile picture update
+-   BugFix: If the user is not logged inredirect /browse to login page and vice versa
+-   Unsubscribe to onAuthStateChanged on Unmount component
+-   Added hardcoded values to constants file
 
 # Features
 
