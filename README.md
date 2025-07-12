@@ -21,7 +21,7 @@
 -   Register TMDB API & create an app & get access token
 -   Get data from TMDB now playing movies list API and added to movieslice
 -   Created UI for browse page
--   Get Movie trailer data from TMDB video API
+-   Get Movie trailer data from TMDB video API to show on browse page
 
 # Features
 
