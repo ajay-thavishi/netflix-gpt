@@ -6,7 +6,7 @@ import Header from "./Header"
 import { checkValidData } from "../util/validate"
 import { auth } from "../util/firebase"
 import { addUserInfo } from "../util/userInfoSlice"
-import { USER_AVATAR } from "../util/constants"
+import { BANNER, USER_AVATAR } from "../util/constants"
 
 const Login = () => {
     const [isLoginForm, setIsLoginForm] = useState(true)
@@ -99,10 +99,7 @@ const Login = () => {
         <div className="relative">
             <Header />
             <div>
-                <img
-                    src="https://assets.nflxext.com/ffe/siteui/vlv3/05e91faa-6f6d-4325-934e-5418dcc2567b/web/IN-en-20250630-TRIFECTA-perspective_159086b1-425f-435b-bcd5-1ed8039cdef9_large.jpg"
-                    alt="banner"
-                />
+                <img src={BANNER} alt="banner" />
             </div>
             <form className="bg-black bg-opacity-80 px-12 py-8 w-1/3 absolute top-[20%] left-1/3 rounded-lg text-white">
                 <h1 className=" text-3xl font-bold my-2">{isLoginForm ? "Sign In" : "Sign Up"}</h1>

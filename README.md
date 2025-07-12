@@ -18,6 +18,10 @@
 -   BugFix: If the user is not logged inredirect /browse to login page and vice versa
 -   Unsubscribe to onAuthStateChanged on Unmount component
 -   Added hardcoded values to constants file
+-   Register TMDB API & create an app & get access token
+-   Get data from TMDB now playing movies list API and added to movieslice
+-   Created UI for browse page
+-   Get Movie trailer data from TMDB video API
 
 # Features
 

@@ -14,10 +14,8 @@ const Header = () => {
     const userInfo = useSelector((item) => item.userInfo)
 
     useEffect(() => {
-        debugger
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            debugger
-            console.log("User state changed:", user)
+            // console.log("User state changed:", user)
             if (user) {
                 navigate("/browse")
                 const { uid, displayName, email, photoURL } = user
