@@ -14,6 +14,8 @@ const useMovieTrailer = (movieId) => {
 		const filteredData = json.results.find((video) => video.type === 'Trailer');
 		// console.log("Movie Trailer:", filteredData)
 
+		// if no trailer is found, use the first video
+		// This is a fallback in case the movie does not have a trailer
 		const trailer = filteredData ? filteredData : json.results[0];
 		// console.log("Selected Trailer:", trailer)
 		setTrailerKey(trailer.key);

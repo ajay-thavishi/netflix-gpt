@@ -19,9 +19,12 @@
 -   Unsubscribe to onAuthStateChanged on Unmount component
 -   Added hardcoded values to constants file
 -   Register TMDB API & create an app & get access token
--   Get data from TMDB now playing movies list API and added to movieslice
+-   Get data from TMDB now playing movies list API
+-   custom hook for now playing movies
+-   create the movieslice and updated store
 -   Created UI for browse page
--   Get Movie trailer data from TMDB video API to show on browse page
+-   Get Movie trailer data from TMDB video API to show on browse page as background
+-   Embedded the youtube video and make it autoplay and mute
 
 # Features
 
